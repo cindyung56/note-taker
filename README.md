@@ -10,13 +10,13 @@ To create a note, users can click on the + button on the top right to start maki
 
 ## Process
 
-The application has front-end and back-end sides that create routes to each other. The front-end sends a request to the back-end, which then takes that request and sends a response based off of the action submitted.
+The application has front-end and back-end sides that create routes to each other. The front-end sends a request to the back-end, which then takes that request and sends a response based off of the action submitted. There are three types of method requests that can be sent to the back-end: GET, POST and DELETE.
 
+The GET request will grab all of the notes in ``db.json`` and return them to the front-end, so the page will be able to load all of the notes on the left column.
 
+The POST request will receive a new note from the front-end when the user wants to save a new one. This function will read the existing data from ``db.json`` and parse it for JavaScript, and then add the new note to the array. It will then update the ``db.json`` file with the new list of notes, and then return the new note to the front-end to add to the list. It is worth noting that in the back-end, all new notes will also have a unique ID created for it before it gets sent to ``db.json``.
 
-## Usage
-
-
+The DELETE request will receive a unique ID from the front-end. This is where each note having a unique ID comes into play. When the ID has been received, the back-end will read the ``db.json`` file first before finding the particular note that matches the ID being passed in the request. When that note has been found, it will be removed from the notes array, and db.json will be updated with the updated data. The back-end will then send back the id to the front-end so it can update the list with the removal.
 
 ## Links
 
