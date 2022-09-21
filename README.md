@@ -20,6 +20,6 @@ The DELETE request will receive a unique ID from the front-end. This is where ea
 
 ## Links
 
-The live app deployed using Heroku can be found here: (insert placeholder text)
+The live app deployed using Heroku can be found here: [https://immense-crag-90629.herokuapp.com](https://immense-crag-90629.herokuapp.com)
 
 The GitHub repository can be found here: [https://github.com/cindyung56/note-taker](https://github.com/cindyung56/note-taker)
