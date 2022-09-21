@@ -18,16 +18,17 @@ app.use(express.static('public'));
 // initial link should go to index.html
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '/public/index.html'))
-});
+})
 
-// /notes should go to the notes.html file
+// /notes path should go to the notes.html file
 app.get('/notes', (req, res) => {
     res.sendFile(path.join(__dirname, '/public/notes.html'))
 })
 
 
-// connecting back-end to front-end
+// CONNECTING BACK-END TO FRONT-END
 
+// get data from db.json and return it to front-end in json format
 app.get('/api/notes', (req, res) => {
     console.log(`${req.method} request received`);
     fs.readFile('./db/db.json', 'utf8', (err, data) => {
@@ -39,6 +40,7 @@ app.get('/api/notes', (req, res) => {
     })
 })
 
+// update db.json with the new note
 app.post('/api/notes', (req, res) => {
     const newNote = req.body;
     // console.log(newNote);
@@ -49,12 +51,12 @@ app.post('/api/notes', (req, res) => {
             if (err) {
                 console.error(err);
             } else {
-                newNote.id = uuidv4();
-                console.log(newNote);
+                newNote.id = uuidv4(); // give each note a unique ID
                 const parsedData = JSON.parse(data);
                 parsedData.push(newNote);
                 fs.writeFile("./db/db.json", JSON.stringify(parsedData), (err) => {
                     err? console.error(err) : console.log("Successfully updated!")
+                    res.json(newNote);
                 })
             }
         })
@@ -62,6 +64,32 @@ app.post('/api/notes', (req, res) => {
         console.error("Error in adding tip");
     }
 
+})
+
+// delete the note that has the passed specific ID
+app.delete('/api/notes/:id', (req, res) => {
+    console.log(`${req.method} request received`);
+    
+    if (req.params.id){
+        fs.readFile('./db/db.json', 'utf8', (err, data) => {
+            if (err) {
+                console.error(err);
+            } else {
+                const parsedData = JSON.parse(data);
+                for (let i = 0; i < parsedData.length; i++) {
+                    const note = parsedData[i];
+                    if (req.params.id === note.id){
+                        parsedData.splice(i, 1);
+                    }
+                }
+                // console.log(parsedData);
+                fs.writeFile("./db/db.json", JSON.stringify(parsedData), (err) => {
+                    err? console.error(err) : console.log("Successfully updated!")
+                    res.json(req.params.id);
+                })
+            }
+        })
+    };
 })
 
 // listen to PORT, start server upon running
